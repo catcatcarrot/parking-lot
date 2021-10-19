@@ -1,5 +1,9 @@
 package main;
 
+import main.exception.ParkingLotException;
+import main.model.Car;
+import main.model.ParkingTicket;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

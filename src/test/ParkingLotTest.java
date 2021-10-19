@@ -1,9 +1,9 @@
 package test;
 
-import main.Car;
+import main.model.Car;
 import main.ParkingLot;
-import main.ParkingLotException;
-import main.ParkingTicket;
+import main.exception.ParkingLotException;
+import main.model.ParkingTicket;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
