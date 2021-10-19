@@ -103,4 +103,25 @@ class ParkingBoyTest {
 
         assertEquals("No ticket is provided.", parkingLotException.getMessage());
     }
+
+    @Test
+    void should_update_capacity_on_parking_success_and_boy_manage_a_parking_lot() {
+        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(10));
+        int initialCapacity = parkingBoy.getAvailableParkingCapacity();
+
+        parkingBoy.park(new Car());
+
+        assertEquals(initialCapacity, parkingBoy.getAvailableParkingCapacity() + 1);
+    }
+
+    @Test
+    void should_update_capacity_on_fetching_success_and_boy_manage_a_parking_lot() {
+        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(10));
+        ParkingTicket ticket = parkingBoy.park(new Car());
+        int initialCapacity = parkingBoy.getAvailableParkingCapacity();
+
+        parkingBoy.fetch(ticket);
+
+        assertEquals(initialCapacity, parkingBoy.getAvailableParkingCapacity() - 1);
+    }
 }

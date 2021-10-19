@@ -22,4 +22,8 @@ public class ParkingBoy {
     public Car fetch(ParkingTicket ticket) {
         return parkingLots.get(0).fetch(ticket);
     }
+
+    public int getAvailableParkingCapacity(){
+        return parkingLots.get(0).getAvailableParkingCapacity();
+    }
 }
