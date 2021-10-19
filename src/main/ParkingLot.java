@@ -29,4 +29,15 @@ public class ParkingLot {
         capacity--;
         return ticket;
     }
+
+    public Car fetch(ParkingTicket ticket) {
+        if (Objects.isNull(ticket)) {
+            throw new ParkingLotException("No ticket is provided.");
+        }
+        if (!parkingLot.containsKey(ticket)) {
+            throw new ParkingLotException("Invalid ticket.");
+        }
+        capacity++;
+        return parkingLot.remove(ticket);
+    }
 }
