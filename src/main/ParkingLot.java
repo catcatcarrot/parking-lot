@@ -40,4 +40,8 @@ public class ParkingLot {
         capacity++;
         return parkingLot.remove(ticket);
     }
+
+    public int getAvailableParkingCapacity() {
+        return this.capacity;
+    }
 }
