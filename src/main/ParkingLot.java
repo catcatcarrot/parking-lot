@@ -12,9 +12,11 @@ import java.util.Objects;
 
 public class ParkingLot {
 
+    private final String name;
     private final Map<Integer, Carport> parkingLot = new HashMap<>();
 
-    public ParkingLot(int capacity) {
+    public ParkingLot(int capacity, String name) {
+        this.name = name;
         for (int i = 0; i < capacity; i++) {
             parkingLot.put(i + 1, null);
         }
@@ -35,7 +37,7 @@ public class ParkingLot {
             throw new ParkingLotException("The car has parked.");
         }
 
-        ParkingTicket parkingTicket = new ParkingTicket(position);
+        ParkingTicket parkingTicket = new ParkingTicket(position, this.name);
         parkingLot.put(position, new Carport(parkingTicket, car));
         return parkingTicket;
     }
@@ -54,5 +56,9 @@ public class ParkingLot {
 
     public long getAvailableParkingCapacity() {
         return parkingLot.entrySet().stream().filter(l -> Objects.isNull(l.getValue())).count();
+    }
+
+    public String getName() {
+        return name;
     }
 }
