@@ -11,12 +11,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class ParkingLotTest {
 
     @Test
-    void should_return_a_ticket_when_parking_lot_exists_position() {
+    void should_return_a_ticket_and_correct_position_when_parking_lot_exists_position() {
         ParkingLot parkingLot = new ParkingLot(10);
 
         ParkingTicket ticket = parkingLot.park(new Car());
 
         assertNotNull(ticket);
+        assertEquals(1, ticket.getPosition());
+    }
+
+    @Test
+    void should_return_correct_position_when_parking_lot_exists_position() {
+        ParkingLot parkingLot = new ParkingLot(10);
+        parkingLot.park(new Car());
+
+        ParkingTicket ticket = parkingLot.park(new Car());
+
+        assertEquals(2, ticket.getPosition());
     }
 
     @Test
@@ -80,7 +91,7 @@ class ParkingLotTest {
 
         ParkingLotException parkingLotException = assertThrows(
                 ParkingLotException.class,
-                () -> parkingLot.fetch(new ParkingTicket())
+                () -> parkingLot.fetch(new ParkingTicket(1))
         );
 
         assertEquals("Invalid ticket.", parkingLotException.getMessage());
@@ -100,9 +111,24 @@ class ParkingLotTest {
     }
 
     @Test
+    void should_return_correct_position_when_after_multiple_park_and_multiple_fetch() {
+        ParkingLot parkingLot = new ParkingLot(10);
+        parkingLot.park(new Car());
+        parkingLot.park(new Car());
+        ParkingTicket ticket = parkingLot.park(new Car());
+        parkingLot.park(new Car());
+        parkingLot.park(new Car());
+        parkingLot.fetch(ticket);
+
+        ParkingTicket ticket2 = parkingLot.park(new Car());
+
+        assertEquals(3, ticket2.getPosition());
+    }
+
+    @Test
     void should_update_capacity_on_parking_success() {
         ParkingLot parkingLot = new ParkingLot(10);
-        int initialCapacity = parkingLot.getAvailableParkingCapacity();
+        long initialCapacity = parkingLot.getAvailableParkingCapacity();
 
         parkingLot.park(new Car());
 
@@ -113,7 +139,7 @@ class ParkingLotTest {
     void should_update_capacity_on_fetching_success() {
         ParkingLot parkingLot = new ParkingLot(10);
         ParkingTicket ticket = parkingLot.park(new Car());
-        int initialCapacity = parkingLot.getAvailableParkingCapacity();
+        long initialCapacity = parkingLot.getAvailableParkingCapacity();
 
         parkingLot.fetch(ticket);
 
