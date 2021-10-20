@@ -287,6 +287,19 @@ class ParkingBoyTest {
     }
 
     @Test
+    void should_fetch_fail_if_boy_manage_multiple_parking_lots_and_use_nonexistent_name_ticket() {
+        ParkingBoy parkingBoy = getThreeParkingLots();
+        parkingBoy.park(new Car());
+
+        ParkingLotException parkingLotException = assertThrows(
+                ParkingLotException.class,
+                () -> parkingBoy.fetch(new ParkingTicket(1, "parking-lot-6"))
+        );
+
+        assertEquals("Invalid ticket.", parkingLotException.getMessage());
+    }
+
+    @Test
     void should_fetch_fail_if_boy_manage_multiple_parking_lots_and_use_nothing() {
         ParkingBoy parkingBoy = getThreeParkingLots();
         parkingBoy.park(new Car());

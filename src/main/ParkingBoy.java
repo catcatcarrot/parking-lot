@@ -34,7 +34,7 @@ public class ParkingBoy {
                 .filter(l -> l.getName().equals(ticket.getParkingLotName()))
                 .map(l -> l.fetch(ticket))
                 .findAny()
-                .get();
+                .orElseThrow(() -> new ParkingLotException("Invalid ticket."));
     }
 
     public long getAvailableParkingCapacity(){
