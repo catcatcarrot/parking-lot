@@ -23,17 +23,11 @@ public class ParkingLot {
     }
 
     public ParkingTicket park(Car car) {
-        Integer position = parkingLot.entrySet()
-                .stream()
-                .sorted(Comparator.comparingInt(Map.Entry::getKey))
-                .filter(l -> Objects.isNull(l.getValue()))
-                .findFirst()
-                .orElseThrow(() -> new ParkingLotException("The parking lot is full."))
-                .getKey();
+        Integer position = getFirstAvailablePosition();
         if (Objects.isNull(car)) {
             throw new ParkingLotException("You are parking nothing.");
         }
-        if (parkingLot.values().stream().filter(Objects::nonNull).anyMatch(p -> p.getCar().equals(car))) {
+        if (isHasParked(car)) {
             throw new ParkingLotException("The car has parked.");
         }
 
@@ -46,7 +40,7 @@ public class ParkingLot {
         if (Objects.isNull(ticket)) {
             throw new ParkingLotException("No ticket is provided.");
         }
-        if (parkingLot.values().stream().filter(Objects::nonNull).noneMatch(p -> p.getTicket().equals(ticket))) {
+        if (isValidTicket(ticket)) {
             throw new ParkingLotException("Invalid ticket.");
         }
         Car car = parkingLot.get(ticket.getPosition()).getCar();
@@ -56,6 +50,24 @@ public class ParkingLot {
 
     public long getAvailableParkingCapacity() {
         return parkingLot.entrySet().stream().filter(l -> Objects.isNull(l.getValue())).count();
+    }
+
+    private boolean isHasParked(Car car) {
+        return parkingLot.values().stream().filter(Objects::nonNull).anyMatch(p -> p.getCar().equals(car));
+    }
+
+    private Integer getFirstAvailablePosition() {
+        return parkingLot.entrySet()
+                .stream()
+                .sorted(Comparator.comparingInt(Map.Entry::getKey))
+                .filter(l -> Objects.isNull(l.getValue()))
+                .findFirst()
+                .orElseThrow(() -> new ParkingLotException("The parking lot is full."))
+                .getKey();
+    }
+
+    private boolean isValidTicket(ParkingTicket ticket) {
+        return parkingLot.values().stream().filter(Objects::nonNull).noneMatch(p -> p.getTicket().equals(ticket));
     }
 
     public String getName() {
