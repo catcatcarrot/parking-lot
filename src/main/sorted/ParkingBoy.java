@@ -36,8 +36,4 @@ public class ParkingBoy {
                 .findAny()
                 .orElseThrow(() -> new ParkingLotException("Invalid ticket."));
     }
-
-    public long getAvailableParkingCapacity(){
-        return basicParkingLots.stream().mapToLong(SortedParkingLot::getAvailableParkingCapacity).sum();
-    }
 }

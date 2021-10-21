@@ -120,27 +120,6 @@ class ParkingBoyTest {
     }
 
     @Test
-    void should_update_capacity_on_parking_success_and_boy_manage_a_parking_lot() {
-        ParkingBoy parkingBoy = new ParkingBoy(new SortedParkingLot(10, "parking-lot"));
-        long initialCapacity = parkingBoy.getAvailableParkingCapacity();
-
-        parkingBoy.park(new Car());
-
-        assertEquals(initialCapacity, parkingBoy.getAvailableParkingCapacity() + 1);
-    }
-
-    @Test
-    void should_update_capacity_on_fetching_success_and_boy_manage_a_parking_lot() {
-        ParkingBoy parkingBoy = new ParkingBoy(new SortedParkingLot(10, "parking-lot"));
-        ParkingTicket ticket = parkingBoy.park(new Car());
-        long initialCapacity = parkingBoy.getAvailableParkingCapacity();
-
-        parkingBoy.fetch(ticket);
-
-        assertEquals(initialCapacity, parkingBoy.getAvailableParkingCapacity() - 1);
-    }
-
-    @Test
     void should_return_ticket_when_parking_boy_manage_multiple_parking_lots() {
         ParkingBoy parkingBoy = getThreeParkingLots();
 
@@ -312,27 +291,6 @@ class ParkingBoyTest {
         );
 
         assertEquals("No ticket is provided.", parkingLotException.getMessage());
-    }
-
-    @Test
-    void should_update_capacity_on_parking_success_and_boy_manage_multiple_parking_lots() {
-        ParkingBoy parkingBoy = getThreeParkingLots();
-        long initialCapacity = parkingBoy.getAvailableParkingCapacity();
-
-        parkingBoy.park(new Car());
-
-        assertEquals(initialCapacity, parkingBoy.getAvailableParkingCapacity() + 1);
-    }
-
-    @Test
-    void should_update_capacity_on_fetching_success_and_boy_manage_multiple_parking_lots() {
-        ParkingBoy parkingBoy = getThreeParkingLots();
-        ParkingTicket ticket = parkingBoy.park(new Car());
-        long initialCapacity = parkingBoy.getAvailableParkingCapacity();
-
-        parkingBoy.fetch(ticket);
-
-        assertEquals(initialCapacity, parkingBoy.getAvailableParkingCapacity() - 1);
     }
 
     private ParkingBoy getThreeParkingLots() {
