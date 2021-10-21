@@ -1,5 +1,6 @@
 package main;
 
+import main.basic.ParkingLot;
 import main.exception.ParkingLotException;
 import main.model.Car;
 import main.model.ParkingTicket;

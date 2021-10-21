@@ -1,7 +1,7 @@
 package test;
 
 import main.model.Car;
-import main.ParkingLot;
+import main.basic.ParkingLot;
 import main.exception.ParkingLotException;
 import main.model.ParkingTicket;
 import org.junit.jupiter.api.Test;
