@@ -1,6 +1,5 @@
-package main;
+package main.sorted;
 
-import main.basic.ParkingLot;
 import main.exception.ParkingLotException;
 import main.model.Car;
 import main.model.ParkingTicket;
@@ -12,14 +11,14 @@ import java.util.Objects;
 
 public class ParkingBoy {
 
-    private final List<ParkingLot> parkingLots = new ArrayList<>();
+    private final List<SortedParkingLot> basicParkingLots = new ArrayList<>();
 
-    public ParkingBoy(ParkingLot... parkingLot) {
-        parkingLots.addAll(Arrays.asList(parkingLot));
+    public ParkingBoy(SortedParkingLot... parkingLot) {
+        basicParkingLots.addAll(Arrays.asList(parkingLot));
     }
 
     public ParkingTicket park(Car car) {
-        return parkingLots.stream()
+        return basicParkingLots.stream()
                 .filter(l -> l.getAvailableParkingCapacity() > 0)
                 .findFirst()
                 .orElseThrow(() -> new ParkingLotException("All parking lots are full."))
@@ -31,7 +30,7 @@ public class ParkingBoy {
             throw new ParkingLotException("No ticket is provided.");
         }
 
-        return parkingLots.stream()
+        return basicParkingLots.stream()
                 .filter(l -> l.getName().equals(ticket.getParkingLotName()))
                 .map(l -> l.fetch(ticket))
                 .findAny()
@@ -39,6 +38,6 @@ public class ParkingBoy {
     }
 
     public long getAvailableParkingCapacity(){
-        return parkingLots.stream().mapToLong(ParkingLot::getAvailableParkingCapacity).sum();
+        return basicParkingLots.stream().mapToLong(SortedParkingLot::getAvailableParkingCapacity).sum();
     }
 }

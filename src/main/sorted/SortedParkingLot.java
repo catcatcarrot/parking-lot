@@ -11,12 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class SortedBasicParkingLot implements ParkingLot {
+public class SortedParkingLot implements ParkingLot {
 
     private final String name;
     private final Map<Integer, Carport> parkingLot = new HashMap<>();
 
-    public SortedBasicParkingLot(int capacity, String name) {
+    public SortedParkingLot(int capacity, String name) {
         this.name = name;
         for (int i = 0; i < capacity; i++) {
             parkingLot.put(i + 1, null);

@@ -1,21 +1,21 @@
 package main.basic;
 
+import main.ParkingLot;
 import main.exception.ParkingLotException;
 import main.model.Car;
 import main.model.Carport;
 import main.model.ParkingTicket;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class ParkingLot {
+public class BasicParkingLot implements ParkingLot {
 
     private final String name;
     private final Map<Integer, Carport> parkingLot = new HashMap<>();
 
-    public ParkingLot(int capacity, String name) {
+    public BasicParkingLot(int capacity, String name) {
         this.name = name;
         for (int i = 0; i < capacity; i++) {
             parkingLot.put(i + 1, null);
@@ -23,7 +23,7 @@ public class ParkingLot {
     }
 
     public ParkingTicket park(Car car) {
-        Integer position = getFirstAvailablePosition();
+        Integer position = getAvailablePosition();
         if (Objects.isNull(car)) {
             throw new ParkingLotException("You are parking nothing.");
         }
@@ -56,12 +56,11 @@ public class ParkingLot {
         return parkingLot.values().stream().filter(Objects::nonNull).anyMatch(p -> p.getCar().equals(car));
     }
 
-    private Integer getFirstAvailablePosition() {
+    private Integer getAvailablePosition() {
         return parkingLot.entrySet()
                 .stream()
-                .sorted(Comparator.comparingInt(Map.Entry::getKey))
                 .filter(l -> Objects.isNull(l.getValue()))
-                .findFirst()
+                .findAny()
                 .orElseThrow(() -> new ParkingLotException("The parking lot is full."))
                 .getKey();
     }

@@ -1,19 +1,21 @@
 package test;
 
-import main.ParkingBoy;
-import main.ParkingLot;
 import main.exception.ParkingLotException;
 import main.model.Car;
 import main.model.ParkingTicket;
+import main.sorted.ParkingBoy;
+import main.sorted.SortedParkingLot;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ParkingBoyTest {
 
     @Test
     void should_return_a_ticket_when_park_car_and_parking_boy_manage_a_parking_lot() {
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(10, "parking-lot"));
+        ParkingBoy parkingBoy = new ParkingBoy(new SortedParkingLot(10, "parking-lot"));
 
         ParkingTicket ticket = parkingBoy.park(new Car());
 
@@ -23,7 +25,7 @@ class ParkingBoyTest {
 
     @Test
     void should_park_fail_when_boy_manage_a_parking_lot_and_car_is_parking_twice() {
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(10, "parking-lot"));
+        ParkingBoy parkingBoy = new ParkingBoy(new SortedParkingLot(10, "parking-lot"));
         Car car = new Car();
         parkingBoy.park(car);
 
@@ -36,7 +38,7 @@ class ParkingBoyTest {
 
     @Test
     void should_park_fail_when_boy_manage_a_parking_lot_and_parking_nothing() {
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(10, "parking-lot"));
+        ParkingBoy parkingBoy = new ParkingBoy(new SortedParkingLot(10, "parking-lot"));
 
         ParkingLotException parkingLotException = assertThrows(
                 ParkingLotException.class, () -> parkingBoy.park(null)
@@ -47,7 +49,7 @@ class ParkingBoyTest {
 
     @Test
     void should_park_fail_when_boy_manage_a_parking_lot_and_not_exists_enough_capacity() {
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(10, "parking-lot"));
+        ParkingBoy parkingBoy = new ParkingBoy(new SortedParkingLot(10, "parking-lot"));
 
         for (int i = 0; i < 10; i++) {
             parkingBoy.park(new Car());
@@ -62,7 +64,7 @@ class ParkingBoyTest {
 
     @Test
     void should_return_car_when_boy_manage_a_parking_lot_and_use_ticket() {
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(10, "parking-lot"));
+        ParkingBoy parkingBoy = new ParkingBoy(new SortedParkingLot(10, "parking-lot"));
         parkingBoy.park(new Car());
         ParkingTicket parkingTicket = parkingBoy.park(new Car());
         parkingBoy.park(new Car());
@@ -79,7 +81,7 @@ class ParkingBoyTest {
 
     @Test
     void should_fetch_fail_if_boy_manage_a_parking_lot_and_ticket_has_been_used() {
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(10, "parking-lot"));
+        ParkingBoy parkingBoy = new ParkingBoy(new SortedParkingLot(10, "parking-lot"));
         ParkingTicket ticket = parkingBoy.park(new Car());
         parkingBoy.fetch(ticket);
 
@@ -93,7 +95,7 @@ class ParkingBoyTest {
 
     @Test
     void should_fetch_fail_if_boy_manage_a_parking_lot_and_use_nonexistent_ticket() {
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(10, "parking-lot"));
+        ParkingBoy parkingBoy = new ParkingBoy(new SortedParkingLot(10, "parking-lot"));
         parkingBoy.park(new Car());
 
         ParkingLotException parkingLotException = assertThrows(
@@ -106,7 +108,7 @@ class ParkingBoyTest {
 
     @Test
     void should_fetch_fail_if_boy_manage_a_parking_lot_and_use_nothing() {
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(10, "parking-lot"));
+        ParkingBoy parkingBoy = new ParkingBoy(new SortedParkingLot(10, "parking-lot"));
         parkingBoy.park(new Car());
 
         ParkingLotException parkingLotException = assertThrows(
@@ -119,7 +121,7 @@ class ParkingBoyTest {
 
     @Test
     void should_update_capacity_on_parking_success_and_boy_manage_a_parking_lot() {
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(10, "parking-lot"));
+        ParkingBoy parkingBoy = new ParkingBoy(new SortedParkingLot(10, "parking-lot"));
         long initialCapacity = parkingBoy.getAvailableParkingCapacity();
 
         parkingBoy.park(new Car());
@@ -129,7 +131,7 @@ class ParkingBoyTest {
 
     @Test
     void should_update_capacity_on_fetching_success_and_boy_manage_a_parking_lot() {
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(10, "parking-lot"));
+        ParkingBoy parkingBoy = new ParkingBoy(new SortedParkingLot(10, "parking-lot"));
         ParkingTicket ticket = parkingBoy.park(new Car());
         long initialCapacity = parkingBoy.getAvailableParkingCapacity();
 
@@ -335,9 +337,9 @@ class ParkingBoyTest {
 
     private ParkingBoy getThreeParkingLots() {
         return new ParkingBoy(
-                new ParkingLot(10, "parking-lot-1"),
-                new ParkingLot(10, "parking-lot-2"),
-                new ParkingLot(10, "parking-lot-3")
+                new SortedParkingLot(10, "parking-lot-1"),
+                new SortedParkingLot(10, "parking-lot-2"),
+                new SortedParkingLot(10, "parking-lot-3")
         );
     }
 }
